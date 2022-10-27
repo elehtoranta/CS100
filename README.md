@@ -1,7 +1,4 @@
-# CS100
-CS100 - Programming 1 in University of Tampere
-
-## Python 101
+# CS100 - Python 101
 Coursework for University of Tampere course *Programming 1*. This introductory course is entirely in Python.
 The course also works as an introduction to Object-Oriented Programming (OOP), which I haven't studied in Hive Helsinki.
 
