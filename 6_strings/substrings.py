@@ -47,12 +47,3 @@ def longest_substring_in_order(text: str) -> str:
             i += len(current_longest_substring)
 
     return current_longest_substring
-
-# def main():
-
-    # result = longest_substring_in_order(str(input("Substring:\n")))
-
-    # print(result)
-
-# if __name__ == "__main__":
-    # main()

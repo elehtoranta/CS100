@@ -1,7 +1,7 @@
 """
 COMP.CS.100 Ohjelmointi 1
 Tekija: Erkka Lehtoranta (***REMOVED***)
-Kuvaus: ROT13-salausohjelma
+Kuvaus: ROT13-salausohjelma (complete)
 """
 
 def row_encryption(text: str) -> str:
@@ -36,25 +36,47 @@ def encrypt(text: str) -> str:
                        "j", "k", "l", "m"]
 
     if text.isupper():
-        uppercase = True
+        input_is_uppercase = True
     else:
-        uppercase = False
+        input_is_uppercase = False
     text = text.lower()
 
     for i in range(len(regular_chars)):
-        if text == regular_chars[i]:
+        if regular_chars[i] == text:
             text = encrypted_chars[i]
             break
 
-    if uppercase:
+    if input_is_uppercase:
         text = text.upper()
 
     return text
 
+def read_message() -> str:
+    """
+    Reads input a row at a time, saving each to a list of strings,
+    until an empty row (newline) is input.
+
+    :return: list, containing every row of input.
+    """
+
+    msg: list = []
+    while True:
+        row = str(input())
+        if not row:
+            break
+        msg.append(row)
+
+    return msg
+
 
 def main():
-    print(row_encryption(str(input('encrypt: '))))
+    print("Enter text rows to the message. Quit by entering an empty row.")
+    msg = read_message()
 
+    print("ROT13:")
+    for row in msg:
+        print(row_encryption(row))
 
 if __name__ == "__main__":
     main()
+
