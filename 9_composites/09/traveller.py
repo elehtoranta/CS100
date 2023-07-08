@@ -112,14 +112,12 @@ def read_distance_file(file_name):
             for i in range(len(connection)):
                 connection[i] = connection[i].strip().capitalize()
 
-            connection[DISTANCE] = int(connection[DISTANCE])
-            # print(type(connection[DISTANCE]))
-
             # Create a unique tuple identifier for faster single item access
             key = create_key(connection[0], connection[1])
 
-            connections[key] = connection
+            connections[key] = int(connection[DISTANCE])
 
+        print(connections)
         return connections
 
     except OSError:
@@ -135,7 +133,7 @@ def fetch_neighbours(data, city):
     an empty list [], if <city> is unknown or if there are no
     arrows leaving from <city>.
 
-    :param data: ?????, A data structure containing the distance
+    :param data: dict, A dictionary containing the distance
            information between the known cities.
     :param city: str, the name of the city whose neighbours we
            are interested in.
@@ -145,12 +143,7 @@ def fetch_neighbours(data, city):
              arrows leaving from the <city>.
     """
 
-    # +--------------------------------------------------------------+
-    # |                                                              |
-    # |  TODO: Implement your own version of fetch_neighbours here.  |
-    # |                                                              |
-    # +--------------------------------------------------------------+
-
+    return [x[DESTINATION] for x in data if x[DEPARTURE] == city]
 
 def distance_to_neighbour(data, departure, destination):
     """
@@ -160,7 +153,7 @@ def distance_to_neighbour(data, departure, destination):
     if there is no arrow leading from <departure> city to
     <destination> city.
 
-    :param data: ?????, A data structure containing the distance
+    :param data: dict, dictionary containing the distance
            information between the known cities.
     :param departure: str, the name of the departure city.
     :param destination: str, the name of the destination city.
@@ -169,11 +162,11 @@ def distance_to_neighbour(data, departure, destination):
            between the two cities.
     """
 
-    # +-------------------------------------------------------------------+
-    # |                                                                   |
-    # |  TODO: Implement your own version of distance_to_neighbour here.  |
-    # |                                                                   |
-    # +-------------------------------------------------------------------+
+    if (departure, destination) not in data:
+        return None
+
+    print(data[(departure, destination)][DISTANCE])
+    return data[(departure, destination)][DISTANCE]
 
 def create_key(departure, destination):
     """
@@ -189,7 +182,22 @@ def create_key(departure, destination):
     return (departure, destination)
 
 def get_departures(connections):
+    """
+    Returns a list of all cities with departures. Contains duplicates.
+
+    :param connections: dict, contains distance information between cities.
+    :return: iterator, of departure cities.
+    """
     return map(lambda x:x[DEPARTURE], connections.keys())
+
+def get_destinations(connections):
+    """
+    Returns a list of all cities that are destinations. Contains duplicates.
+
+    :param connections: dict, contains distance information between cities.
+    :return: iterator, of destination cities.
+    """
+    return map(lambda x:x[DESTINATION], connections.keys())
 
 def main():
     input_file = input("Enter input file name: ").strip()
@@ -212,8 +220,8 @@ def main():
             return
 
         elif "display".startswith(action):
-            for v in sorted(connections.values()):
-                print(f'{v[DEPARTURE]:14} {v[DESTINATION]:14} {v[DISTANCE]:5}')
+            print(connections)
+            print(f'{k[DEPARTURE]:14} {k[DESTINATION]:14} {connections[k]:5}'.format(**connections))
 
         elif "add".startswith(action):
             departure = input("Enter a departure city: ").strip().capitalize()
@@ -221,17 +229,12 @@ def main():
             distance = int(input("Enter distance: ").strip())
 
             key = create_key(departure, destination)
-            if key in connections.keys():
-                # print(f"Key {key} found, updating distance")
-                connections[key][DISTANCE] = distance
-            else:
-                # print(f"Key {key} NOT found, adding a connection")
-                connections[key] = [departure, destination, distance]
+            connections[key] = distance
 
         elif "remove".startswith(action):
             departure = input("Enter a departure city: ").strip().capitalize()
 
-            if departure not in map(lambda x:x[0], connections.keys()):
+            if departure not in [x[DEPARTURE] for x in connections.keys()]:
                 print(f"Error: '{departure}' is unknown.")
                 continue
 
@@ -245,12 +248,7 @@ def main():
             del connections[key]
 
         elif "neighbours".startswith(action):
-            # +----------------------------------------+
-            # |                                        |
-            # |  TODO: Implement "neighbours" action.  |
-            # |                                        |
-            # +----------------------------------------+
-            ...
+            fetch_neighbours(connections, "Vaasa")
 
         elif "route".startswith(action):
             # TODO: Implement "route" action.
