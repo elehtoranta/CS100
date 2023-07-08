@@ -112,7 +112,10 @@ def read_distance_file(file_name):
             for i in range(len(connection)):
                 connection[i] = connection[i].strip().capitalize()
 
-            # Create a unique identifier for faster single item access
+            connection[DISTANCE] = int(connection[DISTANCE])
+            # print(type(connection[DISTANCE]))
+
+            # Create a unique tuple identifier for faster single item access
             key = create_key(connection[0], connection[1])
 
             connections[key] = connection
@@ -174,15 +177,19 @@ def distance_to_neighbour(data, departure, destination):
 
 def create_key(departure, destination):
     """
-    Creates a simple, unique identifier to use as a dictionary key,
-    speeding up operations on the connections data.
+    Creates a simple, unique identifier tuple to use as a
+    dictionary key, speeding up and simplifying operations on
+    the connections data. We don't care about memory footprint around here.
 
     :param departure: str, departure city.
     :param destination: str, destination city.
-    :return: str, a key string.
+    :return: tuple[str, str], a departure-destination string pair as a key.
     """
 
-    return departure + destination
+    return (departure, destination)
+
+def get_departures(connections):
+    return map(lambda x:x[DEPARTURE], connections.keys())
 
 def main():
     input_file = input("Enter input file name: ").strip()
@@ -206,23 +213,36 @@ def main():
 
         elif "display".startswith(action):
             for v in sorted(connections.values()):
-                print(f'{v[DEPARTURE]} {v[DESTINATION]} {v[DISTANCE]}')
+                print(f'{v[DEPARTURE]:14} {v[DESTINATION]:14} {v[DISTANCE]:5}')
 
         elif "add".startswith(action):
-            # +----------------------------------------+
-            # |                                        |
-            # |  TODO: Implement "add" action.         |
-            # |                                        |
-            # +----------------------------------------+
-            ...
+            departure = input("Enter a departure city: ").strip().capitalize()
+            destination = input("Enter a destination city: ").strip().capitalize()
+            distance = int(input("Enter distance: ").strip())
+
+            key = create_key(departure, destination)
+            if key in connections.keys():
+                # print(f"Key {key} found, updating distance")
+                connections[key][DISTANCE] = distance
+            else:
+                # print(f"Key {key} NOT found, adding a connection")
+                connections[key] = [departure, destination, distance]
 
         elif "remove".startswith(action):
-            # +----------------------------------------+
-            # |                                        |
-            # |  TODO: Implement "remove" action.      |
-            # |                                        |
-            # +----------------------------------------+
-            ...
+            departure = input("Enter a departure city: ").strip().capitalize()
+
+            if departure not in map(lambda x:x[0], connections.keys()):
+                print(f"Error: '{departure}' is unknown.")
+                continue
+
+            destination = input("Enter a destination city: ").strip().capitalize()
+            key = create_key(departure, destination)
+
+            if key not in connections.keys():
+                print(f"Error: missing road segment between '{departure}' and '{destination}'")
+                continue
+
+            del connections[key]
 
         elif "neighbours".startswith(action):
             # +----------------------------------------+
