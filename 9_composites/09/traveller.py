@@ -89,19 +89,38 @@ def read_distance_file(file_name):
     unless an error happens during the file reading operation.
 
     :param file_name: str, The name of the file to be read.
-    :return: ????? | None: A data structure containing the information
+    :return: dict | None: A data structure containing the information
              read from the <file_name> or None if any kind of error happens.
              The data structure to be chosen is completely up to you as long
              as all the required operations can be implemented using it.
     """
 
+    connections = {}
+
     try:
         file = open(file_name)
 
-        print('File opened successfully.')
-        return []
+        print(f'File {file_name} opened successfully.')
+
+        for line in file:
+            connection = line.rstrip('\n').split(';')
+
+            if len(connection) != 3:
+                print(f"Error: invalid number of values on line '{line}', " \
+                        "please input 3 values separated by a semicolon (;)")
+
+            for i in range(len(connection)):
+                connection[i] = connection[i].strip().capitalize()
+
+            # Create a unique identifier for faster single item access
+            key = create_key(connection[0], connection[1])
+
+            connections[key] = connection
+
+        return connections
+
     except OSError:
-        print("Error: {file_name} can not be read.")
+        print(f"Error: '{file_name}' can not be read.")
         return None
 
 def fetch_neighbours(data, city):
@@ -153,6 +172,17 @@ def distance_to_neighbour(data, departure, destination):
     # |                                                                   |
     # +-------------------------------------------------------------------+
 
+def create_key(departure, destination):
+    """
+    Creates a simple, unique identifier to use as a dictionary key,
+    speeding up operations on the connections data.
+
+    :param departure: str, departure city.
+    :param destination: str, destination city.
+    :return: str, a key string.
+    """
+
+    return departure + destination
 
 def main():
     input_file = input("Enter input file name: ").strip()
@@ -162,6 +192,10 @@ def main():
     if connections is None:
         print(f"Error: '{input_file}' can not be read.")
         return
+    # # DEGUBBE
+    # print(f'Connections file contents:\n')
+    # for k, v in connections.items():
+    #     print(f'{k} {v[DEPARTURE]} {v[DESTINATION]} {v[DISTANCE]}')
 
     while True:
         action = input("Enter action> ")
@@ -171,8 +205,8 @@ def main():
             return
 
         elif "display".startswith(action):
-            for c in connections:
-                print(f'{c[DEPARTURE]} {c[DESTINATION]} {c[DISTANCE]}')
+            for v in sorted(connections.values()):
+                print(f'{v[DEPARTURE]} {v[DESTINATION]} {v[DISTANCE]}')
 
         elif "add".startswith(action):
             # +----------------------------------------+
