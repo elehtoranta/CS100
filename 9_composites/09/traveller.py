@@ -108,7 +108,7 @@ def read_distance_file(file_name, known_cities):
     connections = {}
 
     try:
-        file = open(file_name)
+        file = open(file_name, encoding='utf-8')
 
         print(f'File {file_name} opened successfully.')
 
