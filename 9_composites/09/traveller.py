@@ -4,9 +4,39 @@ Student Id: ***REMOVED***
 Name:       Erkka Lehtoranta
 Email:      erkka.lehtoranta@tuni.fi
 
-Project 3: Route optimizer
+Project 3: Road trip optimizer
 
-Description: TODO
+Description:
+    The road trip optimizer maintains and displays information
+    about routes between (Finnish) cities.
+
+Usage:
+    Start: `python3 traveller.py`
+    Options: `display | add | remove | neighbours | route`
+
+    The program reads a semicolon-separated text file as the starting
+    input. This file needs to be a of form '<departure>;<destination>;distance',
+    where <departure> and <destination> represent cities between which a route
+    is created, and <distance> the distance between these cities.
+
+    Using options (see: Options) prompts the required information for the given
+    procedure.
+
+Options:
+    display:
+        Display all current routes between cities as a column as:
+        `<departure> <destination> <distance in kilometers>`
+    add:
+        Add a new route connection between a <departure> and <destination>
+        cities.
+    remove:
+        Remove the route connection between <departure> and <destination>.
+    neighbours:
+        Display the cities to which the <departure> city has outbound connections.
+    route:
+        Display a route from <departure> city to <destination> city with a total
+        distance in kilometers. The output format is:
+            `<departure>-[...]-<destination> (<distance> km)`
 """
 
 # Index constants to access connection data by value
