@@ -220,7 +220,7 @@ def display_connections(connections):
     """
 
     for key in sorted(connections):
-        print(f"{key[DEPARTURE]:14} {key[DESTINATION]:14} {connections[key]:>5d}")
+        print(f"{key[DEPARTURE]:13} {key[DESTINATION]:13} {connections[key]:>5d}")
 
 
 def display_route(connections, known_cities):
@@ -287,7 +287,7 @@ def add_connection(connections, known_cities):
     """
     departure = input("Enter departure city: ").strip().capitalize()
     destination = input("Enter destination city: ").strip().capitalize()
-    distance = input("Enter distance: ").strip()
+    distance = input("Distance: ").strip()
 
     if not departure or not destination or not distance:
         print(f"Error: please fill all information asked.")
