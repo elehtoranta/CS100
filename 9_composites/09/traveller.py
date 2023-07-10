@@ -9,6 +9,7 @@ Project 3: Route optimizer
 Description: TODO
 """
 
+# Index constants to access connection data by value
 DEPARTURE = 0
 DESTINATION = 1
 DISTANCE = 2
@@ -43,14 +44,19 @@ def find_route(data, departure, destination):
     # |                                      |
     # +--------------------------------------+
 
-    # Modified this condition, as the condition assumes a depth of 1 data
-    # structure. My data is of form dict[(departure, destination):distance],
-    # and the 'departure in data' condition did not apply.
-    #   I know my choice of data structure is a bit esoteric, but you might want
-    # consider abstracting this condition with a check_if_departure() boolean function
+    # Modified this below membership condition, as the condition assumes <departure>
+    # to be a direct child of the parent <data>.
+    # My data is of form dict[(departure, destination):distance], which complies with
+    # the assignment suggestion of 1 nested data structure (tuple key in my case),
+    # and yet breaks this condition.
+    #
+    # Consider abstracting this condition with a check_if_departure() boolean function
     # or something of the like for situations like this, as you've done with
     # fetch_neighbours() and distance_to_neighbour().
-    if departure not in data:
+    #
+    # If this change is unjustified in your opinion, I'll rework the project to use
+    # a different data structure.
+    if departure not in [x[DEPARTURE] for x in data]:
         return []
 
     elif departure == destination:
@@ -296,9 +302,8 @@ def remove_connection(connections, known_cities):
 def main():
     input_file = input("Enter input file name: ").strip()
 
-    # Added due to the special condition hinted in the exercise, that
-    # ALL cities that appear either as a departure or destination are
-    # considered known.
+    # Added below variable due to the special condition hinted in the exercise, that
+    # ALL cities that appear either as a departure or destination are considered known.
     known_cities = set()
 
     connections = read_distance_file(input_file, known_cities)
