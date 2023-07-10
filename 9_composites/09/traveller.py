@@ -294,7 +294,7 @@ def add_connection(connections, known_cities):
         return
 
     if not distance.isnumeric():
-        print(f"Error: distance needs to be a number (in kilometers).")
+        print(f"Error: '{distance}' is not an integer.")
         return
 
     known_cities.update({departure, destination})
@@ -323,7 +323,7 @@ def remove_connection(connections, known_cities):
     if key in connections.keys():
         del connections[key]
     else:
-        print(f"Error: missing road segment between '{departure}' and '{destination}'")
+        print(f"Error: missing road segment between '{departure}' and '{destination}'.")
 
 
 def main():
