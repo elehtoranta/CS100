@@ -146,8 +146,6 @@ def read_distance_file(file_name, known_cities):
     try:
         file = open(file_name, encoding='utf-8')
 
-        print(f'File {file_name} opened successfully.')
-
         for line in file:
             connection = line.rstrip('\n').split(';')
 
@@ -168,7 +166,6 @@ def read_distance_file(file_name, known_cities):
         return connections
 
     except OSError:
-        print(f"Error: '{file_name}' can not be read.")
         return None
 
 def fetch_neighbours(data, city):
