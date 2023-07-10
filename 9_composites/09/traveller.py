@@ -5,6 +5,8 @@ Name:       Erkka Lehtoranta
 Email:      erkka.lehtoranta@tuni.fi
 
 Project 3: Route optimizer
+
+Description: TODO
 """
 
 DEPARTURE = 0
@@ -42,12 +44,13 @@ def find_route(data, departure, destination):
     # +--------------------------------------+
 
     # Modified this condition, as the condition assumes a depth of 1 data
-    # structure. My data is of form dict[(departure, destination):distance].
-    # I know my choice of data structure is a bit esoteric, but you might want
-    # consider abstracting this condition with a get_departures() boolean function
+    # structure. My data is of form dict[(departure, destination):distance],
+    # and the 'departure in data' condition did not apply.
+    #   I know my choice of data structure is a bit esoteric, but you might want
+    # consider abstracting this condition with a check_if_departure() boolean function
     # or something of the like for situations like this, as you've done with
     # fetch_neighbours() and distance_to_neighbour().
-    if departure not in [x[DEPARTURE] for x in data]:
+    if departure not in data:
         return []
 
     elif departure == destination:
@@ -87,20 +90,21 @@ def find_route(data, departure, destination):
     return list(reversed(route))
 
 
-def read_distance_file(file_name):
+def read_distance_file(file_name, known_cities):
     """
     Reads the distance information from <file_name> and stores it
     in a suitable data structure (you decide what kind of data
     structure to use). This data structure is also the return value,
     unless an error happens during the file reading operation.
 
-    :param file_name: str, The name of the file to be read.
-    :return: dict | None: A data structure containing the information
-             read from the <file_name> or None if any kind of error happens.
-             The data structure to be chosen is completely up to you as long
-             as all the required operations can be implemented using it.
+    :param file_name: str, the name of the file to be read.
+    :param known_cities: set, names of cities that appear as
+        departure or destination at any time.
+    :return: dict | None: contains the connection information read
+        from the <file_name>, or None if any kind of error happens.
     """
 
+    # {(departure, distance): distance, ...}
     connections = {}
 
     try:
@@ -113,13 +117,15 @@ def read_distance_file(file_name):
 
             if len(connection) != 3:
                 print(f"Error: invalid number of values on line '{line}', " \
-                        "please input 3 values separated by a semicolon (;)")
+                       "please input 3 values separated by a semicolon (;)")
 
             for i in range(len(connection)):
                 connection[i] = connection[i].strip().capitalize()
 
+            known_cities.update({connection[DEPARTURE], connection[DESTINATION]})
+
             # Create a unique tuple identifier for faster single item access
-            key = create_key(connection[0], connection[1])
+            key = (connection[0], connection[1])
 
             connections[key] = int(connection[DISTANCE])
 
@@ -167,9 +173,9 @@ def distance_to_neighbour(data, departure, destination):
            between the two cities.
     """
 
-    return data[(departure, destination)] \
-            if (departure, destination) in data \
-            else None
+    return (data[(departure, destination)]
+            if (departure, destination) in data
+            else None)
 
 def display_connections(connections):
     """
@@ -179,67 +185,123 @@ def display_connections(connections):
     :param connections: dict, key: (departure, destination), value: distance.
     :return: None
     """
+
     for key in sorted(connections):
-        print(f"{key[DEPARTURE]:14} {key[DESTINATION]:14} {connections[key]:5}")
+        print(f"{key[DEPARTURE]:14} {key[DESTINATION]:14} {connections[key]:>5d}")
 
-def create_key(departure, destination):
+
+def display_route(connections, known_cities):
     """
-    Creates a simple, unique identifier tuple to use as a
-    dictionary key, speeding up and simplifying operations on
-    the connections data. We don't care about memory footprint around here.
+    Displays the route in format 'departure-[substation]-...-destination ([int] km)'.
 
-    :param departure: str, departure city.
-    :param destination: str, destination city.
-    :return: tuple[str, str], a departure-destination string pair as a key.
+    :param route: list, list[str] of cities the route passes through.
+    :param connections: dict, all connections to fetch distance data from.
     """
 
-    return (departure, destination)
+    departure = input("Enter departure city: ").strip().capitalize()
 
-def has_departure_city(connections, city):
-    """
-    Checks whether the given <city> has any outbound connections.
+    if departure not in known_cities:
+        print(f"Error: '{departure}' is unknown.")
+        return
 
-    :param connections: dict, contains all city connections.
-    :param city: str, name of the city that is being tested.
-    :return: bool, True if a city has outbound connections, False otherwise.
-    """
-    return True if city in map(lambda x:x[DEPARTURE], connections) else False
+    destination = input("Enter destination city: ").strip().capitalize()
 
-def get_departures(connections):
-    """
-    Returns a list of all cities with departures. Contains duplicates.
+    route = find_route(connections, departure, destination)
 
-    :param connections: dict, contains distance information between cities.
-    :return: iterator, of departure cities.
-    """
-    return map(lambda x:x[DEPARTURE], connections.keys())
+    if len(route) == 0:
+        print(f"No route found between '{departure}' and '{destination}'.")
+        return
 
-def get_destinations(connections):
-    """
-    Returns a list of all cities that are destinations. Contains duplicates.
+    # Since there doesn't need to be an explicit connection key for a route
+    # to the departure city:
+    if route[1] == route[0]:
+        print(f"{route[0]}-{route[1]} (0 km)")
+        return
 
-    :param connections: dict, contains distance information between cities.
-    :return: iterator, of destination cities.
-    """
-    return map(lambda x:x[DESTINATION], connections.keys())
-
-def display_route(route, connections):
-    """
-    
-    """
     total_distance = 0
     for i in range(len(route) - 1):
         hop = connections[(route[i], route[i + 1])]
         total_distance += hop
-        # print(f"Total distance on iteration {i}: {total_distance}")
         print(f"{route[i]}-", end='')
 
     print(f"{route[len(route) - 1]} ({total_distance} km)")
 
+
+def display_neighbours(connections, known_cities):
+    """
+    Prints out the neighbours of a given <city>.
+
+    :param connections: dict, data of all city connections.
+    :param known_cities: list, names of all known (appeared) cities.
+    """
+
+    departure = input("Enter departure city: ").strip().capitalize()
+
+    if departure not in known_cities:
+        print(f"Error: '{departure}' is unknown.")
+        return
+
+    neighbours = filter(lambda x:x[0][DEPARTURE] == departure, connections.items())
+    display_connections(dict(neighbours))
+
+
+def add_connection(connections, known_cities):
+    """
+    Adds a route connection between a cities given as input.
+
+    :param connections: dict, data of all city connections.
+    :param known_cities: list, names of all known (appeared) cities.
+    """
+    departure = input("Enter departure city: ").strip().capitalize()
+    destination = input("Enter destination city: ").strip().capitalize()
+    distance = input("Enter distance: ").strip()
+
+    if not departure or not destination or not distance:
+        print(f"Error: please fill all information asked.")
+        return
+
+    if not distance.isnumeric():
+        print(f"Error: distance needs to be a number (in kilometers).")
+        return
+
+    known_cities.update({departure, destination})
+
+    key = (departure, destination)
+    connections[key] = int(distance)
+
+
+def remove_connection(connections, known_cities):
+    """
+    Removes a route connection between cities given as input, if a match is found.
+
+    :param connections: dict, data of all city connections.
+    :param known_cities: list, names of all known (appeared) cities.
+    """
+
+    departure = input("Enter departure city: ").strip().capitalize()
+
+    if departure not in known_cities:
+        print(f"Error: '{departure}' is unknown.")
+        return
+
+    destination = input("Enter destination city: ").strip().capitalize()
+    key = (departure, destination)
+
+    if key in connections.keys():
+        del connections[key]
+    else:
+        print(f"Error: missing road segment between '{departure}' and '{destination}'")
+
+
 def main():
     input_file = input("Enter input file name: ").strip()
 
-    connections = read_distance_file(input_file)
+    # Added due to the special condition hinted in the exercise, that
+    # ALL cities that appear either as a departure or destination are
+    # considered known.
+    known_cities = set()
+
+    connections = read_distance_file(input_file, known_cities)
 
     if connections is None:
         print(f"Error: '{input_file}' can not be read.")
@@ -256,53 +318,16 @@ def main():
             display_connections(connections)
 
         elif "add".startswith(action):
-            departure = input("Enter departure city: ").strip().capitalize()
-            destination = input("Enter destination city: ").strip().capitalize()
-            distance = int(input("Enter distance: ").strip())
-
-            key = create_key(departure, destination)
-            connections[key] = distance
+            add_connection(connections, known_cities)
 
         elif "remove".startswith(action):
-            departure = input("Enter departure city: ").strip().capitalize()
-
-            if departure not in [x[DEPARTURE] for x in connections.keys()]:
-                print(f"Error: '{departure}' is unknown.")
-                continue
-
-            destination = input("Enter destination city: ").strip().capitalize()
-            key = create_key(departure, destination)
-
-            if key in connections.keys():
-                del connections[key]
-            else:
-                print(f"Error: missing road segment between '{departure}' and '{destination}'")
+            remove_connection(connections, known_cities)
 
         elif "neighbours".startswith(action):
-            departure = input("Enter departure city: ").strip().capitalize()
-
-            if not has_departure_city(connections, departure):
-                print(f"Error: '{departure}' is unknown.")
-            else:
-                display_connections(dict(filter(lambda x:x[0][DEPARTURE] == departure, connections.items())))
+            display_neighbours(connections, known_cities)
 
         elif "route".startswith(action):
-            departure = input("Enter departure city: ").strip().capitalize()
-            if not has_departure_city(connections, departure):
-                print(f"Error: '{departure}' is unknown.")
-                continue
-
-            destination = input("Enter destination city: ").strip().capitalize()
-
-            route = find_route(connections, departure, destination)
-            # print(route) # DEBUG
-
-            if len(route) == 0:
-                print(f"No route found between '{departure}' and '{destination}'.")
-            elif len(route) == 2 and route[1] == departure: # push to display_route
-                print(f"{departure}-{destination} (0 km)")
-            else:
-                display_route(route, connections)
+            display_route(connections, known_cities)
 
         else:
             print(f"Error: unknown action '{action}'.")
