@@ -25,6 +25,7 @@ class Player():
         :param name: str, name of the player.
         """
         self.__name = name
+        self.__throws = []
         self.__points = 0
 
     def get_name(self):
@@ -33,18 +34,34 @@ class Player():
     def get_points(self):
         return self.__points
 
+    def set_points(self, pts):
+        if type(pts) is not int:
+            raise ValueError("Points must be an integer value")
+        else:
+            self.__points = pts
+
     def add_points(self, pts):
         if pts < 0:
             raise ValueError("Points must be 0 or more.")
-        elif pts + self.__points > WINNING_POINTS:
+
+        self.__throws.append(pts)
+
+        if pts + self.__points > WINNING_POINTS:
             print(f"{self.__name} gets penalty points!")
-            self.__points = PENALTY_POINTS
+            self.set_points(PENALTY_POINTS)
         else:
-            self.__points += pts
+            self.set_points(sum(self.__throws))
+
+        if self.better_than_average():
+            print(f"Cheers {self.__name}!")
 
         if self.__points in range(40, WINNING_POINTS):
-            print(f"{self.__name} needs only {WINNING_POINTS - self.__points} points. "
+            print(f"{self.__name} needs only {WINNING_POINTS - self.get_points()} points. "
                    "It's better to avoid knocking down the pins with higher points.")
+
+
+    def better_than_average(self):
+        return True if self.__throws[-1] > self.__points / len(self.__throws) else False
 
     def has_won(self):
         return True if self.__points == WINNING_POINTS else False
