@@ -49,10 +49,8 @@ class Car:
             raise ValueError("You cannot travel a negative distance")
 
         would_consume = (self.__consumption / 100) * distance
-        print(f"Consumption: {would_consume}")
         consumed = would_consume if would_consume <= self.__gas else self.__gas
         driven = consumed * self.__consumption
-        print(f"Driven: {driven}, Consumed: {consumed}")
         self.__odometer += driven
         self.__gas -= consumed
 
@@ -65,21 +63,25 @@ def main():
     car = Car(tank_size, gas_consumption)
 
     while True:
-        car.print_information()
+        try:
+            car.print_information()
 
-        choice = input("1) Fill 2) Drive 3) Quit\n-> ")
+            choice = input("1) Fill 2) Drive 3) Quit\n-> ")
 
-        if choice == "1":
-            to_fill = read_number("How many liters of gas to fill up?")
-            car.fill(to_fill)
+            if choice == "1":
+                to_fill = read_number("How many liters of gas to fill up?")
+                car.fill(to_fill)
 
-        elif choice == "2":
-            distance = read_number("How many kilometers to drive?")
-            car.drive(distance)
+            elif choice == "2":
+                distance = read_number("How many kilometers to drive?")
+                car.drive(distance)
 
-        elif choice == "3":
-            print("Thank you and bye!")
-            break
+            elif choice == "3":
+                print("Thank you and bye!")
+                break
+
+        except ValueError as error_message:
+            print(error_message)
 
 
 def read_number(prompt, error_message="Incorrect input!"):
