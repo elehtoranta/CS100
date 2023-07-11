@@ -74,18 +74,6 @@ def find_route(data, departure, destination):
     # |                                      |
     # +--------------------------------------+
 
-    # Modified this below membership condition, as the condition assumes <departure>
-    # to be a direct child of the parent <data>.
-    # My data is of form dict[(departure, destination):distance], which complies with
-    # the assignment suggestion of 1 nested data structure (tuple key in my case),
-    # and yet breaks this condition.
-    #
-    # Consider abstracting this condition with a check_if_departure() boolean function
-    # or something of the like for situations like this, as you've done with
-    # fetch_neighbours() and distance_to_neighbour().
-    #
-    # If this change is unjustified in your opinion, I'll rework the project to use
-    # a different data structure.
     if departure not in [x[DEPARTURE] for x in data]:
         return []
 
