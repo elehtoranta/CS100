@@ -34,6 +34,12 @@ class Player():
     def get_points(self):
         return self.__points
 
+    def get_hit_percentage(self):
+        if not self.__throws:
+            return 0.0
+
+        return float(len(list(filter(lambda x:x > 0, self.__throws))) / len(self.__throws) * 100)
+
     def set_points(self, pts):
         if type(pts) is not int:
             raise ValueError("Points must be an integer value")
@@ -51,9 +57,6 @@ class Player():
             self.set_points(PENALTY_POINTS)
         else:
             self.set_points(sum(self.__throws))
-
-        if self.better_than_average():
-            print(f"Cheers {self.__name}!")
 
         if self.__points in range(40, WINNING_POINTS):
             print(f"{self.__name} needs only {WINNING_POINTS - self.get_points()} points. "
@@ -92,8 +95,8 @@ def main():
 
             in_turn.add_points(pts)
 
-            # TODO:
-            # c) Add a supporting feedback printout "Cheers NAME!" here.
+            if in_turn.better_than_average():
+                print(f"Cheers {in_turn.get_name()}!")
 
             if in_turn.has_won():
                 print("Game over! The winner is " + in_turn.get_name() + "!")
@@ -101,8 +104,8 @@ def main():
 
             print("")
             print("Scoreboard after throw " + str(throw) + ":")
-            print(player1.get_name() + ":", player1.get_points(), "p")  # TODO: d)
-            print(player2.get_name() + ":", player2.get_points(), "p")  # TODO: d)
+            print(f"{player1.get_name()}: {player1.get_points()} p, hit percentage {player1.get_hit_percentage():.1f}")
+            print(f"{player2.get_name()}: {player2.get_points()} p, hit percentage {player2.get_hit_percentage():.1f}")
             print("")
 
             throw += 1
