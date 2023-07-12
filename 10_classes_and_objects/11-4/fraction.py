@@ -9,6 +9,10 @@ Description:
 """
 
 
+NUMERATOR = 0
+DENOMINATOR = 1
+
+
 class Fraction:
     """
     This class represents one single fraction that consists of
@@ -52,7 +56,7 @@ class Fraction:
 
 
     def __str__(self):
-        return f"{self.__numerator}/{self.__denominator}"
+        return self.return_string()
 
 
     def get_numerator(self):
@@ -145,3 +149,35 @@ def greatest_common_divisor(a, b):
         a, b = b, a % b
 
     return a
+
+
+def main():
+    fractions = []
+
+    print("Enter fractions in the format integer/integer.\n"
+          "One fraction per line. Stop by entering an empty line.")
+
+    while True:
+        try:
+            f = input()
+
+            if f == "":
+                break
+
+            f = f.strip().split('/')
+            fractions.append(Fraction(int(f[NUMERATOR]), int(f[DENOMINATOR])))
+
+        except IOError as emsg:
+            print(emsg)
+
+    if not fractions:
+        return
+
+    print("The given fractions in their simplified form:")
+    for f in fractions:
+        print(f, "=", end=' ')
+        f.simplify()
+        print(f)
+
+if __name__ == "__main__":
+    main()
