@@ -56,7 +56,7 @@ class Player():
             print(f"{self.__name} gets penalty points!")
             self.set_points(PENALTY_POINTS)
         else:
-            self.set_points(sum(self.__throws))
+            self.set_points(self.__points + pts) # TODO this check gives too many points if there's penalty points given
 
         if self.__points in range(40, WINNING_POINTS):
             print(f"{self.__name} needs only {WINNING_POINTS - self.get_points()} points. "
@@ -64,6 +64,9 @@ class Player():
 
 
     def better_than_average(self):
+        if self.__throws[-1] != PENALTY_POINTS and self.__points == PENALTY_POINTS:
+            return False
+
         return True if self.__throws[-1] > self.__points / len(self.__throws) else False
 
     def has_won(self):
