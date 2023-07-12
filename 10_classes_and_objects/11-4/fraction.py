@@ -41,6 +41,16 @@ class Fraction:
         self.__denominator = denominator
 
 
+    def __gt__(self, other):
+        comp = self.deduct(other)
+        return True if comp.get_numerator() * comp.get_denominator() > 0 else False
+
+    def __lt__(self, other):
+        comp = self.deduct(other)
+        return True if comp.get_numerator() * comp.get_denominator() < 0 else False
+        
+
+
     def get_numerator(self):
         """Getter for numerator."""
         return self.__numerator
