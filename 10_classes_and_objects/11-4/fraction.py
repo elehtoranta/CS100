@@ -45,19 +45,25 @@ class Fraction:
         comp = self.deduct(other)
         return True if comp.get_numerator() * comp.get_denominator() > 0 else False
 
+
     def __lt__(self, other):
         comp = self.deduct(other)
         return True if comp.get_numerator() * comp.get_denominator() < 0 else False
-        
+
+
+    def __str__(self):
+        return f"{self.__numerator}/{self.__denominator}"
 
 
     def get_numerator(self):
         """Getter for numerator."""
         return self.__numerator
 
+
     def get_denominator(self):
         """Getter for denominator."""
         return self.__denominator
+
 
     def return_string(self):
         """
