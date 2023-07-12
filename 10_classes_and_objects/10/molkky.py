@@ -27,12 +27,16 @@ class Player():
         self.__name = name
         self.__throws = []
         self.__points = 0
+        self.__penalty = False
+
 
     def get_name(self):
         return self.__name
 
+
     def get_points(self):
         return self.__points
+
 
     def get_hit_percentage(self):
         if not self.__throws:
@@ -40,11 +44,13 @@ class Player():
 
         return float(len(list(filter(lambda x:x > 0, self.__throws))) / len(self.__throws) * 100)
 
+
     def set_points(self, pts):
         if type(pts) is not int:
             raise ValueError("Points must be an integer value")
         else:
             self.__points = pts
+
 
     def add_points(self, pts):
         if pts < 0:
@@ -55,8 +61,10 @@ class Player():
         if pts + self.__points > WINNING_POINTS:
             print(f"{self.__name} gets penalty points!")
             self.set_points(PENALTY_POINTS)
+            self.__penalty = True
         else:
             self.set_points(self.__points + pts) # TODO this check gives too many points if there's penalty points given
+            self.__penalty = False
 
         if self.__points in range(40, WINNING_POINTS):
             print(f"{self.__name} needs only {WINNING_POINTS - self.get_points()} points. "
@@ -64,10 +72,11 @@ class Player():
 
 
     def better_than_average(self):
-        if self.__throws[-1] != PENALTY_POINTS and self.__points == PENALTY_POINTS:
+        if self.__penalty:
             return False
 
         return True if self.__throws[-1] > self.__points / len(self.__throws) else False
+
 
     def has_won(self):
         return True if self.__points == WINNING_POINTS else False
