@@ -1,17 +1,12 @@
 """
 COMP.CS.100 Ohjelmointi 1 / Programming 1
-StudentId: TODO
-Name:      TODO
-Email:     TODO
+Student Id: ***REMOVED***
+Name:       Erkka Lehtoranta
+Email:      erkka.lehtoranta@tuni.fi
 
-TODO
+Description:
+    TODO
 """
-
-# +--------------------------------------------------------------+
-# | This template file requires at minimum Python version 3.8 to |
-# | work correctly. If your Python version is older, you really  |
-# | should get yourself a newer version.                         |
-# +--------------------------------------------------------------+
 
 
 LOW_STOCK_LIMIT = 30
@@ -87,6 +82,11 @@ class Product:
 
     # TODO: Multiple methods need to be written here to allow
     #       all the required commands to be implemented.
+
+    def print(self):
+        """Prints the product information of <self>."""
+
+        print(self)
 
 
 def _read_lines_until(fd, last_line):
@@ -267,6 +267,33 @@ def example_function_for_example_purposes(warehouse, parameters):
 
     print("Seems like everything is good.")
     print(f"Parameters are: {code=} and {number=}.")
+
+
+def print_all_products(products):
+    """
+    Prints out all products in a format specified by '__str__'.
+    The products are sorted in ascending order by the product code (id).
+
+    :param products: dict[int, Product], products currently in stock.
+    """
+
+    for product in products:
+        print(product)
+
+
+def print_by_code(products, code):
+    """
+    Prints out a product from <products> specified by identifier <code>, in
+    a format specified in Product.
+
+    :param products: dict[int, Product], products currently in stock.
+    :param code: int, product code of the product to be printed.
+    """
+
+    if not isinstance(code, int) or code not in products.keys():
+        print(f"Error: product '{code}' can not be printed as it does not exist.")
+    else:
+        print(products[code])
 
 
 def main():
