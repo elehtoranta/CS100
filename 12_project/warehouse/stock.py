@@ -63,6 +63,36 @@ class Product:
                self.__category == other.__category and \
                self.__price == other.__price
 
+    # Comparisons for sorting by code
+    def __lt__(self, other):
+        """
+        Less-than comparison.
+
+        :return: True | False, True if the stock of <self> is
+                 less than <other>'s, False otherwise.
+        """
+
+        return True if self.__code < other.__code else False
+
+    def __gt__(self, other):
+        """
+        Greater-than comparison.
+
+        :return: True | False, True if the stock of <self> is
+                 greater than <other>'s, False otherwise.
+        """
+
+        return True if self.__code > other.__code else False
+
+    def get_stock(self) -> int:
+        """
+        Get the current stock amount.
+
+        :return: int, stock amount.
+        """
+
+        return self.__stock
+
     def modify_stock_size(self, amount):
         """
         YOU SHOULD NOT MODIFY THIS METHOD since read_database
@@ -79,9 +109,6 @@ class Product:
         """
 
         self.__stock += amount
-
-    # TODO: Multiple methods need to be written here to allow
-    #       all the required commands to be implemented.
 
     def print(self):
         """Prints the product information of <self>."""
@@ -269,31 +296,96 @@ def example_function_for_example_purposes(warehouse, parameters):
     print(f"Parameters are: {code=} and {number=}.")
 
 
-def print_all_products(products):
+def print_products(warehouse):
     """
     Prints out all products in a format specified by '__str__'.
     The products are sorted in ascending order by the product code (id).
 
-    :param products: dict[int, Product], products currently in stock.
+    :param warehouse: dict[int, Product], products currently in stock.
     """
 
-    for product in products:
+    for product in sorted(warehouse.values()):
         print(product)
 
 
-def print_by_code(products, code):
+def print_product_by_code(warehouse, code):
     """
     Prints out a product from <products> specified by identifier <code>, in
     a format specified in Product.
 
-    :param products: dict[int, Product], products currently in stock.
+    :param warehouse: dict[int, Product], product entries.
     :param code: int, product code of the product to be printed.
     """
 
-    if not isinstance(code, int) or code not in products.keys():
+    try:
+        code = int(code)
+    except:
+        print(f"Error: product '{code}' can not be printed as it does not exist.")
+        return
+
+    if not isinstance(code, int) or code not in warehouse:
         print(f"Error: product '{code}' can not be printed as it does not exist.")
     else:
-        print(products[code])
+        print(warehouse[code])
+
+
+def delete_product_entry(warehouse, params):
+    """
+    Deletes a warehouse product entry, if a matching entry is found,
+    and if there's no such products held at the warehouse.
+
+    :param warehouse: dict[int, Product], product entries.
+    :param code: int, product code of the entry to be deleted.
+    """
+
+    try:
+        code = int(params)
+    except ValueError:
+        print(f"Error: product '{params}' can not be deleted as it does not exist.")
+        return
+
+    if code not in warehouse:
+        print(f"Error: product '{code}' can not be deleted as it does not exist.")
+    elif warehouse[code].get_stock() > 0:
+        print(f"Error: product '207457' can not be deleted as stock remains.")
+    else:
+        del warehouse[code]
+
+
+def change_stock(warehouse, params):
+    """
+    Changes the stock of a product entry specified by <code>.
+    Performs input validation that 'modify_stock_size()' does not.
+
+    :param warehouse: dict[int, Product], product entries.
+    :param code: int, product code of the entry to be changed.
+    """
+
+    try:
+        code, amount = params.strip().split()
+
+        code = int(code)
+        amount = int(amount)
+
+    except ValueError:
+        print(f"Error: bad parameters {params} for change command")
+        return
+
+    if code not in warehouse:
+        print(f"Error: stock for '{code}' can not be changed as it does not exist.")
+    else:
+        warehouse[code].modify_stock_size(amount)
+
+def display_low_stocks(warehouse):
+    """
+    Prints out the products that have less than LOW_STOCK_LIMIT (30)
+    stock available.
+
+    :param warehouse: dict[int, Product], product entries.
+    """
+
+    lows = dict(filter(lambda x:x[1].get_stock() < LOW_STOCK_LIMIT, warehouse.items()))
+    print_products(lows)
 
 
 def main():
@@ -343,32 +435,19 @@ def main():
             example_function_for_example_purposes(warehouse, parameters)
 
         elif "print".startswith(command) and parameters == "":
-            # TODO: Implement print command which prints all
-            #       known products in the ascending order of
-            #       the product codes.
-            ...
+            print_products(warehouse)
 
         elif "print".startswith(command) and parameters != "":
-            # TODO: Implement print command to print a single
-            #       product when the product code is given.
-            ...
+            print_product_by_code(warehouse, parameters)
 
         elif "delete".startswith(command) and parameters != "":
-            # TODO: Implement delete command for removing
-            #       a product from the inventory.
-            ...
+            delete_product_entry(warehouse, parameters)
 
         elif "change".startswith(command) and parameters != "":
-            # TODO: Implement change command which allows
-            #       the user to modify the amount of a product
-            #       in stock.
-            ...
+            change_stock(warehouse, parameters)
 
         elif "low".startswith(command) and parameters == "":
-            # TODO: Implement low command which can be used to
-            #       alert the user when the amount of items
-            #       drop below <LOW_STOCK_LIMIT> i.e. 30.
-            ...
+            display_low_stocks(warehouse)
 
         elif "combine".startswith(command) and parameters != "":
             # TODO: Implement combine command which allows
