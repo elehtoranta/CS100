@@ -5,26 +5,77 @@ Name:       Erkka Lehtoranta
 Email:      erkka.lehtoranta@tuni.fi
 
 Description:
-    TODO
+    A warehouse stock management program.
+
+    Reads a simple database file, which is turned into product entries
+    to be displayed and manipulated by provided commands (see:
+    Commands).
+
+Usage:
+    Reading the database: <filename>
+        Read product information from <filename>.
+
+        The file format consists of following input blocks
+        delimited by blank lines:
+            BEGIN PRODUCT
+            CODE <id>
+            NAME <name>
+            CATEGORY <category>
+            PRICE <price>
+            STOCK <stock>
+            END PRODUCT
+
+    Commands: print | change | remove | low | combine | sale
+        `print [<id>]`: With no arguments, displays all products in
+            stock. With optional <id>, displays a product with that ID.
+
+        `change <id> <quantity>`: Changes (adds or removes) stock of the
+            product with ID <id>. Both arguments should be integers.
+
+        `remove <id>`: Removes the database entry for product with ID
+            <id>. An entry can only be removed if there's no current
+            stock available.
+
+        `low`: Display products that have stock less than
+            LOW_STOCK_LIMIT (see below).
+
+        `combine <stays> <leaves>:` Combine product with ID <leaves> to
+            <stays>. This is useful especially when handling duplicate
+            entries. The stock of <leaves> is added to (or if negative
+            stock, substracted from) the stock of <stays>, after which
+            <leaves> product entry is deleted.
+
+        `sale <category> <sale>`: Places the items in <category> to a
+            sale of <sale> percents. Note: A sale can be reverted by
+            placing a category to a 'sale' of 0 percents.
 """
 
 
 LOW_STOCK_LIMIT = 30
-
+USAGE = """Usage: <command> [<args>]
+Commands:
+    print [<id>]
+    change <id> <quantity>
+    remove <id>
+    low
+    combine <id> <id>
+    sale <category> <sale>
+Argument format:
+    id, quantity: int
+    category: str
+    sale: float
+"""
 
 class Product:
-    """
-    This class represent a product i.e. an item available for sale.
-    """
+    """This class represents a product entry in a warehouse."""
 
     def __init__(self, code, name, category, price, stock):
         self.__code = code
         self.__name = name
         self.__category = category
         self.__price = price
+        self.__original_price = price
         self.__stock = stock
-
-        # TODO (MAYBE): You might want to add more attributes here.
 
     def __str__(self):
         """
@@ -111,6 +162,36 @@ class Product:
 
         return self.__category
 
+    def set_on_sale(self, sale):
+        """Set the sale price according to a sale percentage."""
+        self.__price = self.__original_price * ((100 - sale) / 100)
+
+    def transfer_stock_to(self, other, amount):
+        """Transfer <amount> of Product <self> to <other>."""
+        transferable = amount if self.__stock >= amount else self.__stock
+
+        other.modify_stock_size(transferable)
+        self.modify_stock_size(-1 * transferable)
+
+    def can_combine_with(self, other):
+        """
+        Return whether <other> can be combined with <self>.
+
+        :param other: Product to check combination with.
+        :return: True | None, True if can be combined, None if 
+        """
+
+        if self.__price != other.__price:
+            print(f"Error: combining items with different prices "
+                  f"{self.__price}€ and {other.__price}€.")
+            return False
+        elif self.__category != other.__category:
+            print(f"Error: combining items of different categories "
+                  f"'{self.__category}' and '{other.__category}'.")
+            return False
+        else:
+            return True
+
     def modify_stock_size(self, amount):
         """
         YOU SHOULD NOT MODIFY THIS METHOD since read_database
@@ -123,16 +204,11 @@ class Product:
 
         :param amount: int, how much to change the amount in stock.
                        Both positive and negative values are accepted:
-                       positive value increases the stock and vice versa.
+                       positive value increases the stock and vice
+                       versa.
         """
 
         self.__stock += amount
-
-    def print(self):
-        """Prints the product information of <self>."""
-
-        print(self)
-
 
 def _read_lines_until(fd, last_line):
     """
@@ -185,7 +261,8 @@ def read_database(filename):
     This function reads an input file which must be in the format
     explained in the assignment. Returns a dict containing
     the product code as the key and the corresponding Product
-    object as the payload. If an error happens, the return value will be None.
+    object as the payload. If an error happens, the return value will
+    be None.
 
     You don't necessarily need to understand how this function
     works as long as you understand what the return value is.
@@ -280,7 +357,8 @@ def example_function_for_example_purposes(warehouse, parameters):
     command word.
 
     :param warehouse: dict[int, Product], dict of all known products.
-    :param parameters: str, all the text that the user entered after the command word.
+    :param parameters: str, all the text that the user entered after
+                       the command word.
     """
 
     try:
@@ -316,212 +394,238 @@ def example_function_for_example_purposes(warehouse, parameters):
 
 def print_products(warehouse):
     """
-    Prints out all products in a format specified by '__str__'.
+    Print out all products in a format specified by '__str__'.
     The products are sorted in ascending order by the product code (id).
 
-    :param warehouse: dict[int, Product], products currently in stock.
+    :param warehouse: dict[int, Product], product entries.
     """
 
     for product in sorted(warehouse.values()):
         print(product)
 
 
-def print_product_by_code(warehouse, code):
+def print_product_by_code(warehouse, args):
     """
-    Prints out a product from <products> specified by identifier <code>, in
-    a format specified in Product.
+    Print out a product from <TODO> specified by identifier <code>,
+    in a format specified in class <Product>.
 
     :param warehouse: dict[int, Product], product entries.
-    :param code: int, product code of the product to be printed.
+    :param args: str, argument string containing the code of the Product
+                 to be printed.
     """
 
-    try:
-        code = int(code)
-    except:
-        print(f"Error: product '{code}' can not be printed as it does not exist.")
-        return
+    E_NO_EXIST = (f"Error: product '{args}' can not be printed as it does not "
+                "exist.")
 
-    if not isinstance(code, int) or code not in warehouse:
-        print(f"Error: product '{code}' can not be printed as it does not exist.")
+    try:
+        code = int(args)
+    except ValueError:
+        raise ValueError(E_NO_EXIST)
+
+    if code not in warehouse:
+        print(E_NO_EXIST)
+        return
     else:
         print(warehouse[code])
 
 
-def delete_product_entry(warehouse, params):
+def delete_product_entry(warehouse, args):
     """
-    Deletes a warehouse product entry, if a matching entry is found,
-    and if there's no such products held at the warehouse.
+    Delete a <warehouse> product entry, if:
+        - a matching entry is found, and
+        - there's no products at stock.
 
     :param warehouse: dict[int, Product], product entries.
-    :param code: int, product code of the entry to be deleted.
+    :param args: str, argument string containing the product code of the
+                 entry to be deleted.
     """
 
+    E_NO_EXIST = (f"Error: product '{args}' can not be deleted as it does not "
+                  "exist.")
+
     try:
-        code = int(params)
+        code = int(args)
     except ValueError:
-        print(f"Error: product '{params}' can not be deleted as it does not exist.")
-        return
+        raise ValueError(E_NO_EXIST)
+
+    E_STOCK_REMAINS = (f"Error: product '{code}' can not be deleted as stock "
+                       "remains.")
 
     if code not in warehouse:
-        print(f"Error: product '{code}' can not be deleted as it does not exist.")
+        print(E_NO_EXIST)
+        return
     elif warehouse[code].get_stock() > 0:
-        print(f"Error: product '207457' can not be deleted as stock remains.")
+        print(E_STOCK_REMAINS)
+        return
     else:
         del warehouse[code]
 
 
-def change_stock(warehouse, params):
+def change_stock(warehouse, args):
     """
-    Changes the stock of a product entry specified by <code>.
+    Changes the stock of a product entry specified by <args>.
     Performs input validation that 'modify_stock_size()' does not.
 
     :param warehouse: dict[int, Product], product entries.
-    :param code: int, product code of the entry to be changed.
+    :param args: str, argument string containing the product code and
+                 quantity to change.
     """
 
+    E_BAD_PARAMS = f"Error: bad parameters '{args}' for change command."
+
     try:
-        code, amount = params.strip().split()
+        code, quantity = args.strip().split()
 
         code = int(code)
-        amount = int(amount)
+        quantity = int(quantity)
 
     except ValueError:
-        print(f"Error: bad parameters {params} for change command")
-        return
+        raise ValueError(E_BAD_PARAMS)
+
+    E_NO_EXIST = (f"Error: stock for '{code}' can not be changed as it does "
+                  "not exist.")
 
     if code not in warehouse:
-        print(f"Error: stock for '{code}' can not be changed as it does not exist.")
+        print(E_NO_EXIST)
+        return
     else:
-        warehouse[code].modify_stock_size(amount)
+        warehouse[code].modify_stock_size(quantity)
+
 
 def display_low_stocks(warehouse):
     """
-    Prints out the products that have less than LOW_STOCK_LIMIT (30)
+    Prints out the products that have less than LOW_STOCK_LIMIT (now 30)
     stock available.
 
     :param warehouse: dict[int, Product], product entries.
     """
 
-    lows = dict(filter(lambda x:x[1].get_stock() < LOW_STOCK_LIMIT, warehouse.items()))
+    # For more readable lambda: we're filtering the values of the
+    # key:value tuples the 'warehouse.items()' produces.
+    PRODUCT = 1
+
+    lows = dict(filter(lambda x:x[PRODUCT].get_stock() < LOW_STOCK_LIMIT,
+                       warehouse.items()))
     print_products(lows)
 
-def combine_products(warehouse, params):
+
+def combine_products(warehouse, args):
     """
     Combines products with two separate product codes under the code
     of the first product, if their categories and prices match. The
     latter product is deleted from the product entries.
 
     :param warehouse: dict[int, Product], product entries.
-    :param params: str, parameter string of the product codes. Subject
-                   to validation.
+    :param args: str, argument string of the two product codes.
     """
 
+    E_BAD_PARAMS = f"Error: bad parameters '{args}' for combine command."
+
     try:
-        code_stays, code_del = params.strip().split()
+        stays, goes = args.strip().split()
 
-        code_stays = int(code_stays)
-        code_del = int(code_del)
+        stays = int(stays)
+        goes = int(goes)
 
-        if code_stays == code_del:
-            raise ValueError
-        if code_stays not in warehouse or code_del not in warehouse:
-            raise ValueError
-
+    # All errors display the same error, E_BAD_PARAMS.
     except ValueError:
-        print(f"Error: bad parameters {params} for combine command.")
+        raise ValueError(E_BAD_PARAMS)
+
+    # Indentation, see https://peps.python.org/pep-0008/#indentation
+    if (stays == goes
+            or stays not in warehouse
+            or goes not in warehouse):
+        print(E_BAD_PARAMS)
         return
 
-    prod_stay = warehouse[code_stays]
-    prod_del = warehouse[code_del]
-
-    if prod_stay.get_price() != prod_del.get_price():
-        print(f"Error: combining items with different prices "
-              f"{prod_stay.get_price()}€ and {prod_del.get_price()}€.")
-        return
-    elif prod_stay.get_category() != prod_del.get_category():
-        print(f"Error: combining items of different categories "
-              f"'{prod_stay.get_category()}' and '{prod_del.get_category()}'.")
-    else:
+    if warehouse[stays].can_combine_with(warehouse[goes]):
         # Negative stock is considered valid here, so combining can
         # result in lowering the total stock.
-        prod_stay.modify_stock_size(prod_del.get_stock())
-        delete_product_entry(prod_del)
+        warehouse[goes].transfer_stock_to(warehouse[stays],
+                                          warehouse[goes].get_stock())
+        delete_product_entry(warehouse, goes)
+
+
+def set_sale(warehouse, args):
+    """
+    Place all Products of <category> to <sale> percents.
+
+    :param warehouse: dict[int, Product], product entries.
+    :param args: arguments containing category and sale percentage.
+    """
+
+    E_BAD_PARAMS = f"Error: bad parameters '{args}' for sale command."
+
+    try:
+        category, sale = args.strip().split()
+
+        sale = float(sale)
+
+    except ValueError:
+        raise ValueError(E_BAD_PARAMS)
+
+    set_items = 0
+    for product in warehouse.values():
+        if product.get_category() == category:
+            product.set_on_sale(sale)
+            set_items += 1
+
+    print(f"Sale price set for {set_items} items.")
 
 
 def main():
     filename = input("Enter database name: ")
-    # filename = "products.txt"
 
     warehouse = read_database(filename)
     if warehouse is None:
         return
 
     while True:
-        command_line = input("Enter command: ").strip()
+        command_line = input("Enter command: ")
 
         if command_line == "":
             return
 
-        command, *parameters = command_line.split(maxsplit=1)
+        try:
+            command, *args = command_line.split(maxsplit=1)
 
-        command = command.lower()
+            # Flatten to single argument string
+            args = ''.join(args)
 
-        if len(parameters) == 0:
-            parameters = ""
-        else:
-            parameters = parameters[0]
+            if command == "usage" or command == "help":
+                print(USAGE)
 
-        # If you have trouble undestanding what the values
-        # in the variables <command> and <parameters> are,
-        # remove the '#' comment character from the next line.
-        # print(f"TEST: {command=} {parameters=}")
+            elif command == "print" and not args:
+                print_products(warehouse)
 
-        if "example".startswith(command) and parameters != "":
-            """
-            'Example' is not an actual command in the program. It is
-            implemented only to allow you to get ideas how to handle
-            the contents of the variable <parameters>.
+            elif command == "print" and args:
+                print_product_by_code(warehouse, args)
 
-            Example command expects user to enter two values after the
-            command name: an integer and a float:
+            elif command == "delete" and args:
+                delete_product_entry(warehouse, args)
 
-                Enter command: example 123456 1.23
+            elif command == "change" and args:
+                change_stock(warehouse, args)
 
-            In this case the variable <parameters> would refer to
-            the value "123456 1.23". In other words, everything that
-            was entered after the actual command name as a single string.
-            """
+            elif command == "low":
+                display_low_stocks(warehouse)
 
-            example_function_for_example_purposes(warehouse, parameters)
+            elif command == "combine" and args:
+                combine_products(warehouse, args)
 
-        elif "print".startswith(command) and parameters == "":
-            print_products(warehouse)
+            elif command == "sale" and args:
+                set_sale(warehouse, args)
 
-        elif "print".startswith(command) and parameters != "":
-            print_product_by_code(warehouse, parameters)
+            else:
+                print(f"Error: bad command line '{command_line}'.")
 
-        elif "delete".startswith(command) and parameters != "":
-            delete_product_entry(warehouse, parameters)
-
-        elif "change".startswith(command) and parameters != "":
-            change_stock(warehouse, parameters)
-
-        elif "low".startswith(command) and parameters == "":
-            display_low_stocks(warehouse)
-
-        elif "combine".startswith(command) and parameters != "":
-            combine_products(warehouse, parameters)
-            # TODO: Implement combine command which allows command command
-            #       the combining of two products into one.
-            ...
-
-        elif "sale".startswith(command) and parameters != "":
-            # TODO: Implement sale command which allows the user to set
-            #       a sale price for all the products in a specific category.
-            ...
-
-        else:
-            print(f"Error: bad command line '{command_line}'.")
+        # Catches validation errors raised from command handlers. The handlers
+        # raise ValueErrors in justifiable cases (mainly typecasts), while
+        # errors related to restrictions set by the program etc. are handled
+        # with traditional print/returns, as they can be considered a part of
+        # normal control flow.
+        except ValueError as e:
+            print(e)
 
 
 if __name__ == "__main__":
