@@ -93,6 +93,24 @@ class Product:
 
         return self.__stock
 
+    def get_price(self) -> float:
+        """
+        Get the current price of <self>.
+
+        :return: float, price.
+        """
+
+        return self.__price
+
+    def get_category(self) -> str:
+        """
+        Get the category of the product <self>.
+
+        :return: str, category of the product.
+        """
+
+        return self.__category
+
     def modify_stock_size(self, amount):
         """
         YOU SHOULD NOT MODIFY THIS METHOD since read_database
@@ -387,6 +405,48 @@ def display_low_stocks(warehouse):
     lows = dict(filter(lambda x:x[1].get_stock() < LOW_STOCK_LIMIT, warehouse.items()))
     print_products(lows)
 
+def combine_products(warehouse, params):
+    """
+    Combines products with two separate product codes under the code
+    of the first product, if their categories and prices match. The
+    latter product is deleted from the product entries.
+
+    :param warehouse: dict[int, Product], product entries.
+    :param params: str, parameter string of the product codes. Subject
+                   to validation.
+    """
+
+    try:
+        code_stays, code_del = params.strip().split()
+
+        code_stays = int(code_stays)
+        code_del = int(code_del)
+
+        if code_stays == code_del:
+            raise ValueError
+        if code_stays not in warehouse or code_del not in warehouse:
+            raise ValueError
+
+    except ValueError:
+        print(f"Error: bad parameters {params} for combine command.")
+        return
+
+    prod_stay = warehouse[code_stays]
+    prod_del = warehouse[code_del]
+
+    if prod_stay.get_price() != prod_del.get_price():
+        print(f"Error: combining items with different prices "
+              f"{prod_stay.get_price()}€ and {prod_del.get_price()}€.")
+        return
+    elif prod_stay.get_category() != prod_del.get_category():
+        print(f"Error: combining items of different categories "
+              f"'{prod_stay.get_category()}' and '{prod_del.get_category()}'.")
+    else:
+        # Negative stock is considered valid here, so combining can
+        # result in lowering the total stock.
+        prod_stay.modify_stock_size(prod_del.get_stock())
+        delete_product_entry(prod_del)
+
 
 def main():
     filename = input("Enter database name: ")
@@ -450,7 +510,8 @@ def main():
             display_low_stocks(warehouse)
 
         elif "combine".startswith(command) and parameters != "":
-            # TODO: Implement combine command which allows
+            combine_products(warehouse, parameters)
+            # TODO: Implement combine command which allows command command
             #       the combining of two products into one.
             ...
 
