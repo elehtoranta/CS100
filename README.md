@@ -1,8 +1,7 @@
 # CS100 - Python 101
-Coursework for University of Tampere course *Programming 1*. This introductory course is entirely in Python.
-The course also works as an introduction to Object-Oriented Programming (OOP), which I haven't studied in Hive Helsinki.
+Coursework for University of Tampere course *Programming 1*. The course works as a (re-)introduction to OOP in Python.
 
-Most of the coursework is checked automatically, but projects were reviewed by course assistants.
+Much of (especially the earlier stage) code is template based "fill-a-line" -style, as this course is aimed at complete novices.
 
 ## Modules
 1. Loops
