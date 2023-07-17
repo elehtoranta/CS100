@@ -181,13 +181,13 @@ class Product:
         :return: True | None, True if can be combined, None if 
         """
 
-        if self.__price != other.__price:
-            print(f"Error: combining items with different prices "
-                  f"{self.__price}€ and {other.__price}€.")
-            return False
-        elif self.__category != other.__category:
+        if self.__category != other.__category:
             print(f"Error: combining items of different categories "
                   f"'{self.__category}' and '{other.__category}'.")
+            return False
+        elif self.__price != other.__price:
+            print(f"Error: combining items with different prices "
+                  f"{self.__price}€ and {other.__price}€.")
             return False
         else:
             return True
