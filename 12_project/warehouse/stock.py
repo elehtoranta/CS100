@@ -114,7 +114,7 @@ class Product:
                self.__category == other.__category and \
                self.__price == other.__price
 
-    # Comparisons for sorting by code
+    # Comparisons for sorting by product code
     def __lt__(self, other):
         """
         Less-than comparison.
@@ -406,8 +406,8 @@ def print_products(warehouse):
 
 def print_product_by_code(warehouse, args):
     """
-    Print out a product from <TODO> specified by identifier <code>,
-    in a format specified in class <Product>.
+    Print out product information about a Product in <warehouse>.
+    Format specified in class <Product>.
 
     :param warehouse: dict[int, Product], product entries.
     :param args: str, argument string containing the code of the Product
@@ -551,7 +551,8 @@ def set_sale(warehouse, args):
     Place all Products of <category> to <sale> percents.
 
     :param warehouse: dict[int, Product], product entries.
-    :param args: arguments containing category and sale percentage.
+    :param args: str, argument string containing category and sale
+                 percentage.
     """
 
     E_BAD_PARAMS = f"Error: bad parameters '{args}' for sale command."
@@ -607,7 +608,7 @@ def main():
             elif command == "change" and args:
                 change_stock(warehouse, args)
 
-            elif command == "low":
+            elif command == "low" and not args:
                 display_low_stocks(warehouse)
 
             elif command == "combine" and args:
@@ -619,11 +620,11 @@ def main():
             else:
                 print(f"Error: bad command line '{command_line}'.")
 
-        # Catches validation errors raised from command handlers. The handlers
-        # raise ValueErrors in justifiable cases (mainly typecasts), while
-        # errors related to restrictions set by the program etc. are handled
-        # with traditional print/returns, as they can be considered a part of
-        # normal control flow.
+        # Catches validation errors (re)-raised from command handlers. The
+        # handlers raise ValueErrors in justifiable cases (mainly typecasts),
+        # while errors related to restrictions set by the program etc. are
+        # handled with traditional print/returns, as they can be considered a
+        # part of normal control flow.
         except ValueError as e:
             print(e)
 
