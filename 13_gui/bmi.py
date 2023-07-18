@@ -13,8 +13,12 @@ class Userinterface:
         self.__mainwindow = Tk()
 
         self.__entry_frame = Frame(self.__mainwindow, width=300, height=500)
-        self.__weight_labelframe = Frame(self.__entry_frame, width=300, height=250)
-        self.__height_labelframe = Frame(self.__entry_frame, width=300, height=250)
+        self.__weight_labelframe = Frame(self.__entry_frame,
+                                         width=300,
+                                         height=250)
+        self.__height_labelframe = Frame(self.__entry_frame,
+                                         width=300,
+                                         height=250)
 
         self.__weight_value_label = Label(self.__weight_labelframe,
                                           text="Enter your weight (kg):")
@@ -51,6 +55,13 @@ class Userinterface:
         self.__stop_button.grid(row=4, column=0, sticky="E", padx=10, pady=10)
         self.__result_text.grid(row=2, column=0)
         self.__explanation_text.grid(row=3, column=0, columnspan=3)
+
+        # Keybinds
+        # Press enter on 'calculate' button focus to calculate
+        self.__calculate_button.bind('<Return>', lambda e: self.calculate_BMI())
+        # Press enter on 'quit' button focus to quit program
+        self.__stop_button.bind('<Return>', lambda e: self.stop())
+
 
     def calculate_BMI(self):
         """
