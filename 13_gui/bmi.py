@@ -120,16 +120,11 @@ class Userinterface:
         self.__weight_value.delete(0, END)
 
     def stop(self):
-        """
-        Ends the execution of the program.
-        """
-
+        """Ends the execution of the program."""
         self.__mainwindow.destroy()
 
     def start(self):
-        """
-        Starts the mainloop.
-        """
+        """Starts the mainloop."""
         self.__mainwindow.mainloop()
 
 
