@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Tulostetaan ruutu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Just printing squares.
 """
 

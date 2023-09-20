@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Ruutu syötetarkastuksin
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Printing boxes with error checks.
 """
 

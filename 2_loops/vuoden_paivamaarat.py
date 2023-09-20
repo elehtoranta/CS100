@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Vuoden päivämäärät
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Prints the dates of a normal year.
 """
 

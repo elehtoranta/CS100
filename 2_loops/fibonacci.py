@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Fibonacci
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Description: A program printing the Fibonacci sequence to a user specified end.
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Vaihtorahat
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 """
 
 def main():

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Sea level measurements
 Author: Erkka Lehtoranta
-Student No: ***REMOVED***
+Student No: *SECRET*
 
 Description:
     Analyzing the development of sea level through some data markers.

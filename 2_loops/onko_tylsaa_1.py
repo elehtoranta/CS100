@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Onko tylsää 1
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 A small function that loops while the caller is not bored.
 """
 

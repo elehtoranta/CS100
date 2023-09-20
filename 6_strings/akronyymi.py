@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Akronyymin muodostaminen
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Create an acronym of input sentence and returns it.
 """
 

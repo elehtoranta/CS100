@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Pricelist
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Searching prices for user's inputs.
 """
 

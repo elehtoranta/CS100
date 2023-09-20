@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Vokaalit ja konsonantit
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Prints the number of vowels and consonants in a given word.
 """
 

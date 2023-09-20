@@ -2,7 +2,7 @@
 """
 COMP.CS.100: Sorting by price
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 Sorting by price assignment.
 """

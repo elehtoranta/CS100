@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Sanakirja matkalle
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Translating important words to Spanish.
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Kivi-paperi-sakset
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 """
 
 

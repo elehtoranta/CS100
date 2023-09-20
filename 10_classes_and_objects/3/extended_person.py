@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Ohjelmoinnin perusteet
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 The first example of a home made class.
 """
 

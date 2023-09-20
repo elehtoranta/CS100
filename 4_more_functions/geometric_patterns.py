@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Geometriset kuviot
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Printing circumference and area for a given geometric shape.
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Lotto
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Calculating the chances of hitting the jackpot based on number of total and
 drawn balls.
 """

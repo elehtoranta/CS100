@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Sanatiheyslaskuri
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Ohjelma kertoo sanojen esiintymistiheyden.
 """
 

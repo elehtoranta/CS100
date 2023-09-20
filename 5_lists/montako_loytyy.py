@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Montako löytyy?
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Reads a given amount of numbers, saves them to a list
 and returns it.
 """

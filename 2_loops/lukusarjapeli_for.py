@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Lukusarjapeli (for)
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Descprition: Replacing numbers divisible with 3's and 7's with appropriate
 words, for-loop edition.
 """

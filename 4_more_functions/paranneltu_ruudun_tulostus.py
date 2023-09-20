@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Paranneltu ruudun tulostus
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Printing a box with separate characters for the border and contents
 """
 

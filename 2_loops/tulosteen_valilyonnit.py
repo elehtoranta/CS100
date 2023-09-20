@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Tulosteen välilyönnit
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Description: Adding correct formatting to received input.
 """
 

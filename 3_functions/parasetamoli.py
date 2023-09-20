@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Parasetamoli
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 A nonscientific dosing program for Paracetamol.
 """
 

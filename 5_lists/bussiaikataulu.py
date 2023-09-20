@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Bussiaikataulu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Searching for the next leaving bus at the specific stop.
 """
 

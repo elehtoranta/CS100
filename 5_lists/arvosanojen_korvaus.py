@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Arvosanojen korvaus
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Reformatting grades from any passed value (1-5) to magic number 6.
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Puhelinluettelo
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 Creating a phonebook, training nested dictionaries
 """

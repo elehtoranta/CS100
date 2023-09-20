@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Kolmion kulmien laskeminen
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Calculating the angles of triangles using default values for right angles
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Hello world
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 """
 
 print('Hello World!')

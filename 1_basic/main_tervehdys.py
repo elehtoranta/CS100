@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Main_tervehdys
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 """
 
 def main():

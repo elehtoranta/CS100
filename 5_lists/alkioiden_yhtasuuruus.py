@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Listan alkioiden yhtäsuuruusvertailu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Creating a function that tests and returns if all elements of a given list are
 equal.
 """

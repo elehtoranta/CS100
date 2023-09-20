@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Zip boing
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 =)
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Inflaatiolaskin - projekti 1
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Ohjelma selvittää suurimman kuukausittaisen inflaation nousun.
 Deflaatiota ei huomioida.
 """

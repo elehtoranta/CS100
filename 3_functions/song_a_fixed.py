@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Puff the Magic Dragon -laulu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Reducing repetition with a chorus function.
 """
 

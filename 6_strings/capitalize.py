@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Isot alkukirjaimet paikoilleen
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Capitalizing a string
 """
 

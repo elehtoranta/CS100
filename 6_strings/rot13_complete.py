@@ -1,6 +1,6 @@
 """
 COMP.CS.100 Ohjelmointi 1
-Tekija: Erkka Lehtoranta (***REMOVED***)
+Tekija: Erkka Lehtoranta (*SECRET*)
 Kuvaus: ROT13-salausohjelma (complete)
 """
 

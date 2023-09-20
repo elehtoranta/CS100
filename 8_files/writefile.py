@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Writing lines to a file
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 Writing numbered lines to a file.
 """

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Numbering lines in a file
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 Numbering lines in a file.
 """

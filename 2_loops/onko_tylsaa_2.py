@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Onko tylsää 2
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 A more elaborate check if the user is bored.
 """
 

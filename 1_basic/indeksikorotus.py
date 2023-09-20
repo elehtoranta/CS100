@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Indeksikorotus
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 The program adds an index fix of 1.17 percent to the Finnish student aid amount.
 """

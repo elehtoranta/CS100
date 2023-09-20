@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Kertotaulu, kouluversio
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Prints the given multiplication table for the entered number.
 """
 

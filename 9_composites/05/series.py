@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Series
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 Read genres and tv-series from a file into a dict.
 Print a list of the genres in alphabetical order

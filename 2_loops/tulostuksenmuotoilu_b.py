@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Tulostuksenmuotoilu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Description: Formatting simple console output.
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Kolmion pinta-ala
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Calculating the area of a triangle from it's side lengths.
 """
 

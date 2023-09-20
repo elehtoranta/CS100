@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Liukulukujen vertailu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Comparing float values with an epsilon tolerance.
 """
 

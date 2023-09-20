@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Yogi Bear
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Making the greatest sitsilaulu faster to sing virtually.
 """
 

@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Longest substring
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Finding the longest substring in a string.
 """
 

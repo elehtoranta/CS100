@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Listan indeksointi B
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Indexing a list backwards.
 """
 

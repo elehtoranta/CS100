@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Tanssipelit
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Calculating averages for a dancing game.
 """
 

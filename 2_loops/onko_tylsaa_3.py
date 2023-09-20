@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Onko tylsaa 3
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Asking if the user is bored but very, very weirdly.
 """
 

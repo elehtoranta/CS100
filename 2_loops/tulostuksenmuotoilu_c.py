@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Tulostuksen muotoilu C
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Description: Adding correct formatting to a matrix of numbers.
 """
 

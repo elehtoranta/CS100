@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Points
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 
 Calculating and displaying total score for contestants saved in a file.
 """

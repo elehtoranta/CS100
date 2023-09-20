@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Käännä nimet oikein päin
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Reverse names from 'last, first' to 'first last'.
 """
 

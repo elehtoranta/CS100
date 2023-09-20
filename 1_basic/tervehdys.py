@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Tervehdy
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 """
 
 name: str = input("Tell your name: ")

@@ -1,6 +1,6 @@
 """
 COMP.CS.100 Ohjelmointi 1 / Programming 1
-Student Id: ***REMOVED***
+Student Id: *SECRET*
 Name:       Erkka Lehtoranta
 Email:      erkka.lehtoranta@tuni.fi
 Exercise:   GUI project

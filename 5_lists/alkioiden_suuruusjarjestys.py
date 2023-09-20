@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Listan alkioiden suuruusjärjestyksen tarkastelu
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Checking if a list is in ascending order.
 """
 

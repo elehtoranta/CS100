@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Old MacDonald Had a Farm
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Making virtual singing less painful with function calls.
 """
 

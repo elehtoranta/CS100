@@ -2,7 +2,7 @@
 """
 COMP.CS.100: Laske abbat
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Kuvaus: Counts a the number of times a legendary Swedish band appears
 in a given string.
 """

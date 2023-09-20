@@ -1,7 +1,7 @@
 """
 COMP.CS.100: Rubikinkuutio
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Solving the Rubik's cube competition score by filtering list input.
 """
 

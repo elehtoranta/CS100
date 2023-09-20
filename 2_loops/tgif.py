@@ -1,7 +1,7 @@
 """
 COMP.CS.100: TGIF
 Tekijä: Erkka Lehtoranta
-Opiskelijanumero: ***REMOVED***
+Opiskelijanumero: *SECRET*
 Counting Fridays of the year 2014.
 """
 
